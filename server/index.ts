@@ -7,8 +7,9 @@ const dotenv = require("dotenv").config();
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: "https://websockets-client-wizi.onrender.com",
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
 });
 
