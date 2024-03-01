@@ -7,7 +7,7 @@ import Chat from "./components/Chat";
 
 function App() {
   const [userName, setUserName] = useState("");
-  const socket = io("https://websockets-6u46.onrender.com");
+  const socket = io("https://web-sockets-server.vercel.app");
 
   return (
     <BrowserRouter>

@@ -22,6 +22,10 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use("/", (req, res) => {
+  res.send("Server is running");
+});
+
 server.listen(port, () => {
   console.log(`server listening on *:${port}`);
 });
