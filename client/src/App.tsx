@@ -7,7 +7,7 @@ import Chat from "./components/Chat";
 
 function App() {
   const [userName, setUserName] = useState("");
-  const socket = io("wss://websockets-6u46.onrender.com:5000");
+  const socket = io("https://websockets-6u46.onrender.com");
 
   return (
     <BrowserRouter>
@@ -16,7 +16,6 @@ function App() {
         <Route path="login" element={<Login setUserName={setUserName} />} />
       </Routes>
     </BrowserRouter>
-
   );
 }
 

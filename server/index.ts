@@ -6,7 +6,17 @@ const { Server } = require("socket.io");
 const dotenv = require("dotenv").config();
 
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: {
+    origins: ["*"],
+    handlePreflightRequest: (req, res) => {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST",
+        "Access-Control-Allow-Headers": "my-custom-header",
+      });
+      res.end();
+    },
+  },
 });
 
 const port = process.env.PORT;
