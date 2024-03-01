@@ -7,7 +7,9 @@ import Chat from "./components/Chat";
 
 function App() {
   const [userName, setUserName] = useState("");
-  const socket = io("https://web-sockets-server.vercel.app");
+  const socket = io("https://web-sockets-server.vercel.app", {
+    transports: ["websocket"],
+  });
 
   return (
     <BrowserRouter>
