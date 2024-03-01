@@ -7,7 +7,7 @@ import Chat from "./components/Chat";
 
 function App() {
   const [userName, setUserName] = useState("");
-  const socket = io("ws://localhost:5000");
+  const socket = io("ws://websockets-6u46.onrender.com");
 
   return (
     <BrowserRouter>
