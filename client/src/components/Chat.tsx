@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Container from "./Container";
+import { socket } from "../socket";
 
 type Message = {
   message: string;
@@ -10,42 +11,23 @@ type Message = {
 function Chat(props: any) {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [userMessage, setUserMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
-  props.socket.on("message", (data: any) => {
+  socket.on("message", (data: any) => {
     setMessages([...messages, data]);
   });
 
   function sendMessage(e: any) {
     e.preventDefault();
-    props.socket.emit("sendMessage", {
+    socket.emit("sendMessage", {
       message: userMessage,
       name: props.userName,
     });
     setUserMessage("");
   }
 
-  useEffect(() => {
-    props.socket.emit(
-      "join",
-      {
-        name: props.userName,
-        room: props.room,
-      },
-      setErrorMessage
-    );
-
-    // return () => {
-    //   props.socket.emit("disconnect");
-    //   props.socket.off();
-    // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return props.userName ? (
     <Container>
       <div className="py-10">
-        {errorMessage && <h3>{errorMessage}</h3>}
         <ul>
           {messages.map((item) => (
             <li className="flex">

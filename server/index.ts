@@ -12,12 +12,13 @@ const port = process.env.PORT || 5050;
 
 io.on("connection", (socket) => {
   socket.on("join", ({ room, name }, callback) => {
-    console.log(`${name} joined room ${room}`);
     const user = addUser({ id: socket.id, name, room });
 
-    // if (error) {
-    //   return callback(error);
-    // }
+    if (user.error) {
+      return callback(user);
+    }
+
+    callback({ user });
 
     socket.emit("message", {
       name: "Admin",
@@ -32,6 +33,14 @@ io.on("connection", (socket) => {
     socket.join(user.room);
   });
 
+  socket.on("sendMessage", ({ message }) => {
+    const user = getUser(socket.id);
+
+    if (user) {
+      io.to(user.room).emit("message", { message, name: user.name });
+    }
+  });
+
   socket.on("disconnect", function () {
     const user = getUser(socket.id);
 
@@ -41,12 +50,6 @@ io.on("connection", (socket) => {
         name: "Admin",
       });
     }
-  });
-
-  socket.on("sendMessage", ({ message }) => {
-    const user = getUser(socket.id);
-
-    io.to(user.room).emit("message", { message, name: user.name });
   });
 });
 

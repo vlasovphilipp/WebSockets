@@ -2,19 +2,38 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Container from "./Container";
 import clsx from "clsx";
-
+import { socket } from "../socket";
 
 function Login(props: any) {
   const [name, setName] = useState<string>("");
   const [room, setRoom] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  function hanldeLogin(data: any) {
+    if (data.error) {
+      setErrorMessage(data.error);
+      return;
+    }
+    if (data.user) {
+      setErrorMessage("");
+      props.setUserName(name);
+      props.setRoom(room);
+      navigate("/");
+    }
+  }
 
   function handleSubmit(e: any) {
     e.preventDefault();
     if (name && room) {
-      props.setUserName(name);
-      props.setRoom(room);
-      navigate("/");
+      socket.emit(
+        "join",
+        {
+          name,
+          room,
+        },
+        hanldeLogin
+      );
     }
   }
 
@@ -62,6 +81,7 @@ function Login(props: any) {
           Send
         </button>
       </form>
+      {errorMessage && <h3>{errorMessage}</h3>}
     </Container>
   );
 }
