@@ -1,5 +1,5 @@
 {
-  "include": ["./index.ts"],
+  "include": ["./**/*.ts"],
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
@@ -7,5 +7,5 @@
     "strict": false,
     "skipLibCheck": true,
     "outDir": "./dist"
-  }
+  },
 }
