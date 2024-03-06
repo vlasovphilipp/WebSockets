@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const dotenv = require("dotenv").config();
 
-const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.ts");
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
 const app = express();
 const server = http.createServer(app);
