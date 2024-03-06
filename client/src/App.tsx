@@ -7,15 +7,22 @@ import Chat from "./components/Chat";
 
 function App() {
   const [userName, setUserName] = useState("");
-  const socket = io("https://websockets-chat-philipp.koyeb.app", {
+  const [room, setRoom] = useState("");
+  const socket = io(process.env.REACT_APP_SERVER_URL || "", {
     transports: ["websocket"],
   });
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Chat userName={userName} socket={socket} />} />
-        <Route path="login" element={<Login setUserName={setUserName} />} />
+        <Route
+          index
+          element={<Chat userName={userName} socket={socket} room={room} />}
+        />
+        <Route
+          path="login"
+          element={<Login setUserName={setUserName} setRoom={setRoom} />}
+        />
       </Routes>
     </BrowserRouter>
   );
