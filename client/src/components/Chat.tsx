@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import Container from "./Container";
 import { socket } from "../socket";
+import { useSelector } from "react-redux";
 
 type Message = {
   message: string;
@@ -11,6 +12,12 @@ type Message = {
 function Chat(props: any) {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [userMessage, setUserMessage] = useState("");
+  const userName = useSelector(
+    (state: { user: { userName: string } }) => state.user.userName
+  );
+  const userStoreState = useSelector((state) => state);
+
+  console.log("userStoreState", userStoreState);
 
   socket.on("message", (data: any) => {
     setMessages([...messages, data]);
@@ -27,6 +34,7 @@ function Chat(props: any) {
 
   return props.userName ? (
     <Container>
+      {/* <p>(Data from redux store) user name: {userName}</p> */}
       <div className="py-10">
         <ul>
           {messages.map((item) => (

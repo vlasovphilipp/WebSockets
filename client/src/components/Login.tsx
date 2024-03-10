@@ -3,12 +3,15 @@ import { useState } from "react";
 import Container from "./Container";
 import clsx from "clsx";
 import { socket } from "../socket";
+import { setUserName } from "./userSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 function Login(props: any) {
   const [name, setName] = useState<string>("");
   const [room, setRoom] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function hanldeLogin(data: any) {
     if (data.error) {
@@ -19,6 +22,7 @@ function Login(props: any) {
       setErrorMessage("");
       props.setUserName(name);
       props.setRoom(room);
+      dispatch(setUserName(name));
       navigate("/");
     }
   }
